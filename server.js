@@ -29,7 +29,7 @@ app.get("/exercise", (req, res) => {
   res.sendFile(__dirname + "/public/exercise.html");
 });
 
-app.get("/api/workouts", (req, res) => { //Get last workout
+app.get("/api/workouts", (req, res) => { 
   db.Workout.find({}).sort({ day: -1 }).limit(1)
     .then(dbWorkout => {
       console.log(dbWorkout);
@@ -40,8 +40,8 @@ app.get("/api/workouts", (req, res) => { //Get last workout
     });
 });
 
-app.put("/api/workouts/:id", (req, res) => { //Create and add new exercise to workout
-  if(req.body.name == ""){ //Catch empty object
+app.put("/api/workouts/:id", (req, res) => {
+  if(req.body.name == ""){
     res.json("Can't make empty object.");
   }
   db.Workout.findByIdAndUpdate(req.params.id, {$push: {exercises: req.body}}, {new : true})
@@ -54,7 +54,7 @@ app.put("/api/workouts/:id", (req, res) => { //Create and add new exercise to wo
     })
 });
 
-app.post("/api/workouts", (req, res) => { //Create new workout
+app.post("/api/workouts", (req, res) => {
   let body = req.body;
   db.Workout.create(body)
   .then(dbWorkout => {
@@ -66,7 +66,7 @@ app.post("/api/workouts", (req, res) => { //Create new workout
   });
 });
 
-app.get("/api/workouts/range", (req, res) => { //Find last 7 workouts
+app.get("/api/workouts/range", (req, res) => { 
   db.Workout.find({}).sort({ day:-1}).limit(7)
   .then(dbWorkout => {
     res.json(dbWorkout);
