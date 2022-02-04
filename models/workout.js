@@ -33,3 +33,12 @@ const WorkoutSchema = new Schema({
     }
 }]
 });
+
+WorkoutSchema.set("toJSON", {virtuals: true});
+
+WorkoutSchema.virtual("totalDuration"),get(function() {
+    return this.exercises.reduce( function (total, exercise){
+        return total + exercise.duration;
+
+    }, 0);
+});
